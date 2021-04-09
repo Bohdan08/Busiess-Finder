@@ -37,11 +37,6 @@ export const initializeStore = (preloadedState) => {
   return _store;
 };
 
-// export default createStore(
-//   rootReducer,
-//   composeEnhancers(applyMiddleware(apiMiddleware))
-// );
-
 export function useStore(rootReducer) {
   const store = useMemo(() => initializeStore(rootReducer), [rootReducer]);
   return store;

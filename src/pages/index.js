@@ -66,7 +66,13 @@ const MainComponent = () => {
       );
 
       // Use Get to fetch API
-      dispatch(getBusinessesList({ location, term, offset: calculatedOffset }));
+      dispatch(
+        getBusinessesList({
+          location: businesses.location,
+          term: businesses.term,
+          offset: calculatedOffset,
+        })
+      );
     } else {
       // otherwise we only increment current page by 1
       dispatch(
@@ -100,11 +106,11 @@ const MainComponent = () => {
       </Head>
       <main>
         <div className="search-container flex justify-center items-center flex-col bg-header-background">
-          <p className="text-6xl text-gray-50"> Business Finder </p>
+          <p className="md:text-6xl text-4xl text-gray-50"> Business Finder </p>
 
           <form
             method="get"
-            className="flex md:flex-row sm:flex-col p-10"
+            className="flex md:flex-row flex-col p-10"
             onSubmit={submitForm}
           >
             <div className="flex flex-col">
@@ -114,7 +120,7 @@ const MainComponent = () => {
                 id="location"
                 placeholder="Location (Toronto, NYC)"
                 maxLength={30}
-                className="border py-3 px-3 text-grey-darkest  sm:mb-3 md:mb-0 sm:rounded md:rounded-none md:rounded-l-lg focus:outline-none w-80"
+                className="border py-3 px-3 text-grey-darkest  mb-3 md:mb-0 rounded md:rounded-none md:rounded-l-lg focus:outline-none w-80"
                 value={location}
                 onChange={({ target }) => handleFormInput(target)}
               />
@@ -127,7 +133,7 @@ const MainComponent = () => {
                 id="term"
                 placeholder="Business Type (restaraunts, plumbers)"
                 maxLength={30}
-                className="border py-3 px-3 text-grey-darkest sm:mb-3 md:mb-0 sm:rounded md:rounded-none focus:outline-none w-80"
+                className="border py-3 px-3 text-grey-darkest mb-3 md:mb-0 rounded md:rounded-none focus:outline-none w-80"
                 value={term}
                 onChange={({ target }) => handleFormInput(target)}
               />
@@ -137,7 +143,7 @@ const MainComponent = () => {
               disabled={location === ""}
               className={`
               block bg-red-700 focus:outline-none text-white text-lg  py-1 px-4 md:rounded-r-lg
-              sm:mt-2 md:mt-0 sm:rounded md:rounded-none sm:w-full h-auto
+              mt-2 md:mt-0 rounded md:rounded-none w-full h-auto
                     ${
                       location === ""
                         ? "cursor-not-allowed"
@@ -148,7 +154,7 @@ const MainComponent = () => {
               <span className="md:hidden">Search</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 sm:float-right"
+                className="h-6 w-6 float-right"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -168,12 +174,12 @@ const MainComponent = () => {
       {loading ? (
         <div className="loader mx-auto my-20"></div>
       ) : error ? (
-        <div className="flex flex-col justify-center my-20 sm:mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-1/3 sm:w-3/3 rounded">
+        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-1/3 w-3/3 rounded">
           <p className="text-4xl text-white text-center">Error!</p>
           <p className="text-xl text-white text-center pt-2 py-2">{error}</p>
         </div>
       ) : !error && (!data || !data.length) ? (
-        <div className="flex flex-col justify-center my-20 sm:mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
+        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
           <p className="text-4xl text-white text-center">Not Found!</p>
           <p className="text-xl text-white text-center pt-2">
             Please try different options...
@@ -186,13 +192,12 @@ const MainComponent = () => {
             location={businesses.location}
             term={businesses.term}
             total={total}
-            offset={offset}
             currentPage={currentPage}
           />
-          <div className="pagination-contaier d-flex flex-row justify-center  w-6/12 mx-auto text-center">
+          <div className="pagination-contaier d-flex md:flex-row flex-col justify-center sm:w-6/12 w-11/12 mx-auto text-center">
             <button
               disabled={currentPage === 0}
-              className={`float-left   text-white rounded my-5 p-3 ${
+              className={`sm:float-left text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
                 currentPage === 0
                   ? "cursor-not-allowed bg-blue-200"
                   : "bg-blue-500"
@@ -205,7 +210,7 @@ const MainComponent = () => {
             <button
               disabled={offset >= total}
               aria-label="Next Page"
-              className={`float-right text-white rounded my-5 p-3 ${
+              className={`sm:float-right text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
                 offset >= total
                   ? "cursor-not-allowed bg-blue-200"
                   : "bg-blue-500"
@@ -221,11 +226,13 @@ const MainComponent = () => {
       <style jsx>
         {`
           .search-container {
+            width: 100vw;
             padding-top: 30px;
             height: 500px;
             background-color: #333;
             background-size: cover;
             background-position: 50%;
+            overflow-y: hidden;
           }
 
           .loader {

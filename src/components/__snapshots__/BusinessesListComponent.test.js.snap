@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render BusinessesListComponent 1`] = `
+Array [
+  <p
+    className="md:text-3xl text-2xl text-center text-black py-5"
+  >
+    <span
+      className="capitalize"
+    >
+      Restaurants in Toronto
+       
+    </span>
+    <span
+      className="md:block inline-block"
+    >
+      (
+      20
+       out of 
+      )
+    </span>
+  </p>,
+  <div
+    className="flex flex-row flex-wrap justify-center "
+  >
+    <div
+      className="p-2 m-4 border-2 border-gray-200 border-opacity-75 shadow-md shadow-lg rounded lg:w-5/12 w-full"
+    >
+      <div
+        className="flex flex-row"
+      >
+        <div>
+          <div
+            style={
+              Object {
+                "boxSizing": "border-box",
+                "display": "inline-block",
+                "margin": 0,
+                "maxWidth": "100%",
+                "overflow": "hidden",
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "boxSizing": "border-box",
+                  "display": "block",
+                  "maxWidth": "100%",
+                }
+              }
+            >
+              <img
+                alt=""
+                aria-hidden={true}
+                role="presentation"
+                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="
+                style={
+                  Object {
+                    "border": "none",
+                    "display": "block",
+                    "margin": 0,
+                    "maxWidth": "100%",
+                    "padding": 0,
+                  }
+                }
+              />
+            </div>
+            <noscript>
+              <img
+                alt="name"
+                className="rounded"
+                decoding="async"
+                src="/images/notFound.png"
+                srcSet="/_next/image?url=%2Fimages%2FnotFound.png&w=256&q=75 1x, /_next/image?url=%2Fimages%2FnotFound.png&w=640&q=75 2x"
+                style={
+                  Object {
+                    "border": "none",
+                    "bottom": 0,
+                    "boxSizing": "border-box",
+                    "display": "block",
+                    "height": 0,
+                    "left": 0,
+                    "margin": "auto",
+                    "maxHeight": "100%",
+                    "maxWidth": "100%",
+                    "minHeight": "100%",
+                    "minWidth": "100%",
+                    "objectFit": undefined,
+                    "objectPosition": undefined,
+                    "padding": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                    "width": 0,
+                  }
+                }
+              />
+            </noscript>
+            <img
+              alt="name"
+              className="rounded"
+              decoding="async"
+              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              style={
+                Object {
+                  "border": "none",
+                  "bottom": 0,
+                  "boxSizing": "border-box",
+                  "display": "block",
+                  "height": 0,
+                  "left": 0,
+                  "margin": "auto",
+                  "maxHeight": "100%",
+                  "maxWidth": "100%",
+                  "minHeight": "100%",
+                  "minWidth": "100%",
+                  "objectFit": undefined,
+                  "objectPosition": undefined,
+                  "padding": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 0,
+                }
+              }
+            />
+          </div>
+        </div>
+        <div
+          className="flex flex-col pl-4 pt-0 m-0"
+        >
+          <p
+            className="capitalize text-2xl font-semibold text-left text-gray-600"
+          >
+            name
+          </p>
+          <div
+            className="flex flex-col py-1"
+          >
+            <div
+              className="flex flex-row"
+            >
+              <div>
+                <span
+                  className="fa fa-star  pl-0.5 text-yellow-400"
+                />
+                <span
+                  className="fa fa-star  pl-0.5 text-yellow-400"
+                />
+                <span
+                  className="fa fa-star  pl-0.5 text-yellow-400"
+                />
+                <span
+                  className="fa fa-star  pl-0.5 text-yellow-400"
+                />
+                <span
+                  className="fa fa-star  pl-0.5 text-gray-300"
+                />
+              </div>
+              <span
+                className="text-gray-black pl-2"
+              >
+                4
+                 
+              </span>
+              <span
+                className="text-gray-500 pl-1"
+              >
+                 
+                (
+                283
+                 Reviews)
+              </span>
+            </div>
+            <div
+              className="text-gray-900 py-1"
+            >
+               adress1 
+               adress2 
+            </div>
+            <div>
+              <div
+                className="flex flex-row py-1"
+              >
+                <svg
+                  className="h-6 w-6 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                  />
+                </svg>
+                <span
+                  className="pl-1"
+                >
+                  12345678
+                </span>
+              </div>
+              <div
+                className="flex flex-row py-1"
+              >
+                <svg
+                  className="h-6 w-6 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                  />
+                </svg>
+                <a
+                  className="pl-1 hover:underline"
+                  href="url"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                   
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;

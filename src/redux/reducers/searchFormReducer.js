@@ -1,7 +1,7 @@
 import { INIT_FORM_LOCATION, INIT_FORM_TERM } from "../../constants";
 import { SET_SEARCH_FORM_VALUES } from "../constants/actionTypes";
 
-const initState = {
+export const initState = {
   location: INIT_FORM_LOCATION,
   term: INIT_FORM_TERM,
 };

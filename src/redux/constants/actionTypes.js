@@ -10,7 +10,7 @@ export const API_REQUEST = "API_REQUEST";
 /* API Requests */
 
 export const GET_BUSINESSES_LIST = asyncActionType("GET_BUSINESSES_LIST");
-export const SET_BUSINESS_LIST = asyncActionType("SET_BUSINESSES_LIST");
+export const SET_BUSINESS_LIST = "SET_BUSINESSES_LIST";
 
 /* Search Form Actions */
 

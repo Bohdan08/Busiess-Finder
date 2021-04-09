@@ -7,28 +7,22 @@ const BusinessesListComponent = ({
   location,
   term,
   total,
-  offset,
   currentPage,
 }) => {
   const startIndex = currentPage * BUSINESSES_PER_PAGE;
   const endIndex = startIndex + BUSINESSES_PER_PAGE;
-  const currentAmountOfBusinesses = offset + BUSINESSES_PER_PAGE;
 
-  console.log(currentPage, "currentPage");
-  console.log(startIndex, "startIndex");
-  console.log(endIndex, "endIndexƒ");
   return (
     <>
-      <p className="text-3xl text-center text-black py-5">
+      <p className="md:text-3xl text-2xl text-center text-black py-5">
         <span className="capitalize">
           {term ? `${term} in ${location}` : `Browsing ${location} businesses`}{" "}
         </span>
-        <span>
-          ({currentAmountOfBusinesses} out of {total})
+        <span className="md:block inline-block">
+          ({endIndex} out of {total})
         </span>
-        {console.log(offset, "offest")}
       </p>
-      <div className="flex flex-row flex-wrap justify-center  ">
+      <div className="flex flex-row flex-wrap justify-center ">
         {data.slice(startIndex, endIndex).map((obj) => {
           const {
             id,
@@ -43,7 +37,7 @@ const BusinessesListComponent = ({
           return (
             <div
               key={id}
-              className="p-2 m-4 border-2 border-gray-200 border-opacity-75 shadow-md shadow-lg rounded lg:w-5/12 md:w-full"
+              className="p-2 m-4 border-2 border-gray-200 border-opacity-75 shadow-md shadow-lg rounded lg:w-5/12 w-full"
             >
               <div className="flex flex-row">
                 <div>
