@@ -8,7 +8,7 @@ import {
   getAutocompleteList,
   setSearchForm,
 } from "../redux/actions";
-import { BUSINESSES_PER_PAGE } from "../constants";
+import { BUSINESSES_PER_PAGE, TOO_MANY_REQUESTS_ERROR_CODE } from "../constants";
 import {
   BusinessesListComponent,
   AutocompleteMenuComponent,
@@ -34,7 +34,7 @@ const MainComponent = () => {
 
   useEffect(() => {
     // 403 => CORS IS NOT ACTIVATED, ask a user to activate it
-    if (error && error.code && error.code === "403") {
+    if (error && error.code && error.code == 403) {
       Swal.fire({
         icon: "warning",
         title: "CORS POLICY",
@@ -270,7 +270,7 @@ const MainComponent = () => {
           <p className="text-xl text-white text-center pt-2 py-2">
             {error.message}
           </p>
-          {error.code && error.code === "403" && (
+          {error.code && error.code == 403 && (
             <p className="text-xl text-white text-center pt-2 py-2 px-2">
               Perhaps, you need to activate CORS policy for this application due
               to the fact that Yelp API doesn't support it.
