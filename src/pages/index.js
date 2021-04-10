@@ -1,55 +1,27 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  getAutocompleteList,
   getBusinessesList,
   setBusinessesList,
   setSearchForm,
 } from "../redux/actions";
-import {
-  AutocompleteMenuComponent,
-  BusinessesListComponent,
-} from "../components";
+import BusinessesListComponent from "../components/BusinessesListComponent";
 import { BUSINESSES_PER_PAGE } from "../constants";
 
 const MainComponent = () => {
   /* Redux */
-  const { businesses, searchForm, autoComplete } = useSelector((db) => db);
+  const { businesses, searchForm } = useSelector((db) => db);
   const { location, term } = searchForm;
   const { data, error, loading, offset, total, currentPage } = businesses;
 
   const dispatch = useDispatch();
 
-  /* Use States */
+  /* Use Effect */
 
-  const [inputActive, setInputActive] = useState({
-    location: false,
-    term: false,
-  });
-
-  /* Use Effects */
   useEffect(() => {
     // fetch default values on init
     dispatch(getBusinessesList({ location, term, offset: 0, currentPage: 0 }));
-  }, []);
-
-  useEffect(() => {
-    const handleDocumentMouseUp = (event) => {
-      if (event.button !== 2) {
-        setTimeout(() => {
-          setInputActive({
-            location: false,
-            term: false,
-          });
-        }, 10);
-      }
-    };
-
-    document.addEventListener("mouseup", handleDocumentMouseUp);
-    return () => {
-      document.removeEventListener("mouseup", handleDocumentMouseUp);
-    };
   }, []);
 
   /* Handlers */
@@ -111,10 +83,10 @@ const MainComponent = () => {
     }
   };
 
-  const handleFormInput = (name, value) => {
-    dispatch(setSearchForm({ ...searchForm, [name]: value }));
+  const handleFormInput = (target) => {
+    const { name, value } = target;
 
-    setInputActive({ ...inputActive, [name]: true });
+    dispatch(setSearchForm({ ...searchForm, [name]: value }));
   };
 
   return (
@@ -146,25 +118,13 @@ const MainComponent = () => {
                 type="text"
                 name="location"
                 id="location"
-                autoComplete="off"
                 placeholder="Location (Toronto, NYC)"
                 maxLength={30}
-                className="border py-3 px-3 text-grey-darkest mb-3 md:mb-0 rounded md:rounded-none md:rounded-l-lg focus:outline-none w-80"
+                className="border py-3 px-3 text-grey-darkest  mb-3 md:mb-0 rounded md:rounded-none md:rounded-l-lg focus:outline-none w-80"
                 value={location}
-                onChange={({ target }) => {
-                  const { name, value } = target;
-                  return handleFormInput(name, value);
-                }}
+                onChange={({ target }) => handleFormInput(target)}
               />
-              {inputActive.location &&
-                autoComplete.data &&
-                autoComplete.data.length > 0 && (
-                  <AutocompleteMenuComponent
-                    name="location"
-                    data={autoComplete.data}
-                    handleFormInput={handleFormInput}
-                  />
-                )}
+              <i className="fas fa-thumbtack"></i>
             </div>
             <div className="flex flex-col">
               <input
@@ -175,20 +135,8 @@ const MainComponent = () => {
                 maxLength={30}
                 className="border py-3 px-3 text-grey-darkest mb-3 md:mb-0 rounded md:rounded-none focus:outline-none w-80"
                 value={term}
-                onChange={({ target }) => {
-                  const { name, value } = target;
-                  return handleFormInput(name, value);
-                }}
+                onChange={({ target }) => handleFormInput(target)}
               />
-              {inputActive.term &&
-                autoComplete.data &&
-                autoComplete.data.length > 0 && (
-                  <AutocompleteMenuComponent
-                    name="term"
-                    data={autoComplete.data}
-                    handleFormInput={handleFormInput}
-                  />
-                )}
             </div>
             <button
               type="submit"
@@ -196,7 +144,6 @@ const MainComponent = () => {
               className={`
               block bg-red-700 focus:outline-none text-white text-lg  py-1 px-4 md:rounded-r-lg
               mt-2 md:mt-0 rounded md:rounded-none w-full h-auto
-              search-button
                     ${
                       location === ""
                         ? "cursor-not-allowed"
@@ -222,59 +169,60 @@ const MainComponent = () => {
             </button>
           </form>
         </div>
-
-        {loading ? (
-          <div className="loader mx-auto my-20"></div>
-        ) : error ? (
-          <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-1/3 w-3/3 rounded">
-            <p className="text-4xl text-white text-center">Error!</p>
-            <p className="text-xl text-white text-center py-2 px-2">{error}</p>
-          </div>
-        ) : !error && (!data || !data.length) ? (
-          <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
-            <p className="text-4xl text-white text-center">Not Found!</p>
-            <p className="text-xl text-white text-center pt-2">
-              Please try different options...
-            </p>
-          </div>
-        ) : (
-          <>
-            <BusinessesListComponent
-              data={data}
-              location={businesses.location}
-              term={businesses.term}
-              total={total}
-              currentPage={currentPage}
-            />
-            <div className="pagination-contaier d-flex md:flex-row flex-col justify-center sm:w-6/12 w-11/12 mx-auto text-center">
-              <button
-                disabled={currentPage === 0}
-                className={`sm:float-left text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
-                  currentPage === 0
-                    ? "cursor-not-allowed bg-blue-200"
-                    : "bg-blue-500"
-                }`}
-                aria-label="Previous Page"
-                onClick={handlePreviousPage}
-              >
-                Previous Page
-              </button>
-              <button
-                disabled={offset >= total}
-                aria-label="Next Page"
-                className={`sm:float-right text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
-                  offset >= total
-                    ? "cursor-not-allowed bg-blue-200"
-                    : "bg-blue-500"
-                }`}
-                onClick={handleNextPage}
-              >
-                Next Page
-              </button>
-            </div>
-          </>
-        )}
       </main>
+
+      {loading ? (
+        <div className="loader mx-auto my-20"></div>
+      ) : error ? (
+        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-1/3 w-3/3 rounded">
+          <p className="text-4xl text-white text-center">Error!</p>
+          <p className="text-xl text-white text-center pt-2 py-2">{error}</p>
+        </div>
+      ) : !error && (!data || !data.length) ? (
+        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
+          <p className="text-4xl text-white text-center">Not Found!</p>
+          <p className="text-xl text-white text-center pt-2">
+            Please try different options...
+          </p>
+        </div>
+      ) : (
+        <>
+          <BusinessesListComponent
+            data={data}
+            location={businesses.location}
+            term={businesses.term}
+            total={total}
+            currentPage={currentPage}
+          />
+          <div className="pagination-contaier d-flex md:flex-row flex-col justify-center sm:w-6/12 w-11/12 mx-auto text-center">
+            <button
+              disabled={currentPage === 0}
+              className={`sm:float-left text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
+                currentPage === 0
+                  ? "cursor-not-allowed bg-blue-200"
+                  : "bg-blue-500"
+              }`}
+              aria-label="Previous Page"
+              onClick={handlePreviousPage}
+            >
+              Previous Page
+            </button>
+            <button
+              disabled={offset >= total}
+              aria-label="Next Page"
+              className={`sm:float-right text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
+                offset >= total
+                  ? "cursor-not-allowed bg-blue-200"
+                  : "bg-blue-500"
+              }`}
+              onClick={handleNextPage}
+            >
+              Next Page
+            </button>
+          </div>
+        </>
+      )}
+
       <style jsx>
         {`
           .search-container {
@@ -297,9 +245,6 @@ const MainComponent = () => {
             animation: spin 2s linear infinite;
           }
 
-          .search-button {
-            height: 50px;
-          }
           /* Safari */
           @-webkit-keyframes spin {
             0% {
