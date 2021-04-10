@@ -226,60 +226,59 @@ const MainComponent = () => {
             </button>
           </form>
         </div>
-      </main>
 
-      {loading ? (
-        <div className="loader mx-auto my-20"></div>
-      ) : error ? (
-        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-1/3 w-3/3 rounded">
-          <p className="text-4xl text-white text-center">Error!</p>
-          <p className="text-xl text-white text-center py-2 px-2">{error}</p>
-        </div>
-      ) : !error && (!data || !data.length) ? (
-        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
-          <p className="text-4xl text-white text-center">Not Found!</p>
-          <p className="text-xl text-white text-center pt-2">
-            Please try different options...
-          </p>
-        </div>
-      ) : (
-        <>
-          <BusinessesListComponent
-            data={data}
-            location={businesses.location}
-            term={businesses.term}
-            total={total}
-            currentPage={currentPage}
-          />
-          <div className="pagination-contaier d-flex md:flex-row flex-col justify-center sm:w-6/12 w-11/12 mx-auto text-center">
-            <button
-              disabled={currentPage === 0}
-              className={`sm:float-left text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
-                currentPage === 0
-                  ? "cursor-not-allowed bg-blue-200"
-                  : "bg-blue-500"
-              }`}
-              aria-label="Previous Page"
-              onClick={handlePreviousPage}
-            >
-              Previous Page
-            </button>
-            <button
-              disabled={offset >= total}
-              aria-label="Next Page"
-              className={`sm:float-right text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
-                offset >= total
-                  ? "cursor-not-allowed bg-blue-200"
-                  : "bg-blue-500"
-              }`}
-              onClick={handleNextPage}
-            >
-              Next Page
-            </button>
+        {loading ? (
+          <div className="loader mx-auto my-20"></div>
+        ) : error ? (
+          <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-1/3 w-3/3 rounded">
+            <p className="text-4xl text-white text-center">Error!</p>
+            <p className="text-xl text-white text-center py-2 px-2">{error}</p>
           </div>
-        </>
-      )}
-
+        ) : !error && (!data || !data.length) ? (
+          <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
+            <p className="text-4xl text-white text-center">Not Found!</p>
+            <p className="text-xl text-white text-center pt-2">
+              Please try different options...
+            </p>
+          </div>
+        ) : (
+          <>
+            <BusinessesListComponent
+              data={data}
+              location={businesses.location}
+              term={businesses.term}
+              total={total}
+              currentPage={currentPage}
+            />
+            <div className="pagination-contaier d-flex md:flex-row flex-col justify-center sm:w-6/12 w-11/12 mx-auto text-center">
+              <button
+                disabled={currentPage === 0}
+                className={`sm:float-left text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
+                  currentPage === 0
+                    ? "cursor-not-allowed bg-blue-200"
+                    : "bg-blue-500"
+                }`}
+                aria-label="Previous Page"
+                onClick={handlePreviousPage}
+              >
+                Previous Page
+              </button>
+              <button
+                disabled={offset >= total}
+                aria-label="Next Page"
+                className={`sm:float-right text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
+                  offset >= total
+                    ? "cursor-not-allowed bg-blue-200"
+                    : "bg-blue-500"
+                }`}
+                onClick={handleNextPage}
+              >
+                Next Page
+              </button>
+            </div>
+          </>
+        )}
+      </main>
       <style jsx>
         {`
           .search-container {
