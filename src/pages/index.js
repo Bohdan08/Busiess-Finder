@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 import {
   getBusinessesList,
   setBusinessesList,
@@ -27,32 +28,34 @@ const MainComponent = () => {
   /* Use Effect */
 
   useEffect(() => {
-    (function () {
-      var cors_api_host = "cors-anywhere.herokuapp.com";
-      var cors_api_url = "https://" + cors_api_host + "/";
-      var slice = [].slice;
-      var origin = window.location.protocol + "//" + window.location.host;
-      var open = XMLHttpRequest.prototype.open;
-      XMLHttpRequest.prototype.open = function () {
-        var args = slice.call(arguments);
-        var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
-        if (
-          targetOrigin &&
-          targetOrigin[0].toLowerCase() !== origin &&
-          targetOrigin[1] !== cors_api_host
-        ) {
-          args[1] = cors_api_url + args[1];
-        }
-        console.log(this, "THIS_VALUE");
-        console.log(args, "ARGS_VALUE");
-        return open.apply(this, args);
-      };
-    })();
-  });
-
-  useEffect(() => {
     // fetch default values on init
     dispatch(getBusinessesList({ location, term, offset: 0, currentPage: 0 }));
+  }, []);
+
+  useEffect(() => {
+    // 403 => CORS IS NOT ACTIVATED, ask a user to activate it
+    if (error && error.includes("403")) {
+      Swal.fire({
+        icon: "warning",
+        title: "CORS POLICY",
+        html: `
+        Please visit  
+        <a href="https://cors-anywhere.herokuapp.com/"
+          class="text-blue-800"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://cors-anywhere.herokuapp.com/
+        </a>
+        and click on the
+        <span>"Request temporary access to the demo server"</span>
+        button, to temporarily restore the full functionality of this
+        application.`,
+        confirmButtonText: "Ok",
+      }).then(() =>
+        window.open("https://cors-anywhere.herokuapp.com/", "_blank")
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -147,6 +150,10 @@ const MainComponent = () => {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="sweetalert2.all.min.js"></script>
+        {/* a polyfill for ES6 Promises for IE11 */}
+        <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
@@ -248,9 +255,29 @@ const MainComponent = () => {
       {loading ? (
         <div className="loader mx-auto my-20"></div>
       ) : error ? (
-        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-1/3 w-3/3 rounded">
+        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-2/3  w-3/3 rounded">
           <p className="text-4xl text-white text-center">Error!</p>
           <p className="text-xl text-white text-center pt-2 py-2">{error}</p>
+          <p className="text-xl text-white text-center pt-2 py-2 px-2">
+            Perhaps, you need to activate CORS policy for the current
+            application due to the fact that Yelp API doesn't support it.
+            <br />
+            Please visit{" "}
+            <a
+              href="https://cors-anywhere.herokuapp.com/"
+              className="underline text-blue-800"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://cors-anywhere.herokuapp.com/
+            </a>{" "}
+            and click on the
+            {"  "}
+            <span>"Request temporary access to the demo server"</span>
+            {"  "}
+            button, to temporarily restore the full functionality of this
+            application.
+          </p>
         </div>
       ) : !error && (!data || !data.length) ? (
         <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">

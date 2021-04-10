@@ -14,7 +14,6 @@ const apiMiddleware = (store) => (next) => (action) => {
     const formattedTerm = term ? `&term=${term}` : "";
     const formattedText = text ? `&text=${text}` : "";
     const formattedLocation = location ? `&location=${location}` : "";
-    // check if offset explicitly undefined cuz it might be 0
 
     axios
       .get(
@@ -24,6 +23,8 @@ const apiMiddleware = (store) => (next) => (action) => {
         {
           headers: {
             Authorization: `Bearer ${process.env.API_KEY}`,
+            crossdomain: true,
+            "Content-Type": "application/x-www-form-urlencoded",
           },
         }
       )
