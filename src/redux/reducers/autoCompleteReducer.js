@@ -25,7 +25,7 @@ const autoCompleteReducer = (state = initState, action) => {
     case GET_AUTO_COMPLETE_LIST.SUCCESS:
       return {
         ...state,
-        data: payload,
+        data: payload ? payload.terms : [],
         error: false,
         loading: false,
       };

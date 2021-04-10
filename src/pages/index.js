@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import {
@@ -13,20 +13,18 @@ import {
   BusinessesListComponent,
   AutocompleteMenuComponent,
 } from "../components";
+import { debounce } from "lodash";
 
 const MainComponent = () => {
   /* Redux */
-  const { businesses, searchForm } = useSelector((db) => db);
+  const { businesses, searchForm, autoComplete } = useSelector((db) => db);
   const { location, term } = searchForm;
   const { data, error, loading, offset, total, currentPage } = businesses;
 
   const dispatch = useDispatch();
 
   /* Use States */
-  const [inputActive, setInputActive] = useState({
-    location: false,
-    term: false,
-  });
+  const [inputTerm, setInputTerm] = useState(false);
 
   /* Use Effect */
   useEffect(() => {
@@ -67,10 +65,7 @@ const MainComponent = () => {
     const handleDocumentMouseUp = (event) => {
       if (event.button !== 2) {
         setTimeout(() => {
-          setInputActive({
-            location: false,
-            term: false,
-          });
+          setInputTerm(false);
         }, 10);
       }
     };
@@ -138,9 +133,15 @@ const MainComponent = () => {
   const handleFormInput = (name, value) => {
     dispatch(setSearchForm({ ...searchForm, [name]: value }));
 
-    // fetch autocomplite with some delay to avoid redundant api calls
-    // setTimeout(() => dispatch(getAutocompleteList({ text: value })), 1000);
+    if (name !== "location") {
+      callAutoComplete(value);
+    }
   };
+
+  const callAutoComplete = useCallback(
+    debounce((value) => dispatch(getAutocompleteList({ text: value })), 1000),
+    []
+  );
 
   return (
     <div>
@@ -184,15 +185,6 @@ const MainComponent = () => {
                   return handleFormInput(name, value);
                 }}
               />
-              {inputActive.term &&
-                autoComplete.data &&
-                autoComplete.data.length > 0 && (
-                  <AutocompleteMenuComponent
-                    name="location"
-                    data={autoComplete.data}
-                    handleFormInput={handleFormInput}
-                  />
-                )}
             </div>
             <div className="flex flex-col">
               <input
@@ -208,7 +200,7 @@ const MainComponent = () => {
                   return handleFormInput(name, value);
                 }}
               />
-              {inputActive.location &&
+              {inputTerm &&
                 autoComplete.data &&
                 autoComplete.data.length > 0 && (
                   <AutocompleteMenuComponent

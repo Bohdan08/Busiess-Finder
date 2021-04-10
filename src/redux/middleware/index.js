@@ -29,11 +29,9 @@ const apiMiddleware = (store) => (next) => (action) => {
         }
       )
       .then(({ data }) => {
-        console.log(data, "data");
         next({
           type: action.next.SUCCESS,
-          payload: data.businesses,
-          total: data.total,
+          payload: data,
         });
       })
       .catch((error) => {

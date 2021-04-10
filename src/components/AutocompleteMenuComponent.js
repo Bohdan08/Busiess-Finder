@@ -1,20 +1,16 @@
 import React from "react";
 
-const AutocompleteMenuComponent = ({
-  name,
-  data,
-  handleFormInput,
-}) => (
+const AutocompleteMenuComponent = ({ name, data, handleFormInput }) => (
   <ul className="bg-white absolute rounded w-80 autocomplete-menu">
-    {data.map((suggestion) => (
+    {data.map(({ text }) => (
       <li
-        key={suggestion}
+        key={text}
         className="px-3 py-2 text-sm cursor-pointer rounded hover:bg-gray-50"
         onClick={() => {
-          handleFormInput([name], suggestion);
+          handleFormInput([name], text);
         }}
       >
-        {suggestion}
+        {text}
       </li>
     ))}
 

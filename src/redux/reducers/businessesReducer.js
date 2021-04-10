@@ -21,7 +21,7 @@ const initState = {
 };
 
 const restaurantsReducer = (state = initState, action) => {
-  const { type, payload, total } = action;
+  const { type, payload } = action;
   switch (type) {
     case GET_BUSINESSES_LIST.PENDING:
       return {
@@ -37,9 +37,11 @@ const restaurantsReducer = (state = initState, action) => {
         loading: false,
       };
     case GET_BUSINESSES_LIST.SUCCESS:
+      const { businesses, total } = payload;
       return {
         ...state,
-        data: state.currentPage === 0 ? payload : state.data.concat(payload),
+        data:
+          state.currentPage === 0 ? businesses : state.data.concat(businesses),
         total: total,
         error: false,
         loading: false,
