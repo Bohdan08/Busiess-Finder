@@ -14,7 +14,7 @@ const BusinessesListComponent = ({
 
   return (
     <>
-      <p className="md:text-3xl text-2xl text-center text-black py-5">
+      {/* <p className="md:text-3xl text-2xl text-center text-black py-5">
         <span className="capitalize">
           {term ? `${term} in ${location}` : `Browsing ${location} businesses`}{" "}
         </span>
@@ -140,7 +140,7 @@ const BusinessesListComponent = ({
             </div>
           );
         })}
-      </div>
+      </div> */}
     </>
   );
 };
