@@ -421,7 +421,7 @@ const MainComponent = () => {
               flex-direction: column;
             }
 
-            .tooltip {
+            .tooltiptext {
               display: none;
             }
           }
