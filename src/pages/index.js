@@ -134,6 +134,7 @@ const MainComponent = () => {
     dispatch(setSearchForm({ ...searchForm, [name]: value }));
 
     if (name !== "location") {
+      setInputTerm(true);
       callAutoComplete(value);
     }
   };
