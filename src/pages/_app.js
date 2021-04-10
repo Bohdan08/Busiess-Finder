@@ -1,6 +1,5 @@
 import { Provider } from "react-redux";
 import { useStore } from "../redux/store";
-
 // styles
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
