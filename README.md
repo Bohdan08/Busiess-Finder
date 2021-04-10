@@ -3,7 +3,7 @@
 =====================================================================================
 
 [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://bmo-business-finder.herokuapp.com/)
-[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://business-finder.vercel.app/)
+[![Live Backup Demo](https://img.shields.io/badge/demo-online-green.svg)](https://business-finder.vercel.app/)
 
 ![Preview](https://res.cloudinary.com/koruja/image/upload/v1618079730/businessfinder_vqri3p.png)
 
