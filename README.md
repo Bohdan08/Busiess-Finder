@@ -42,6 +42,8 @@ Once the dependencies are installed, you can run npm run dev to start the applic
 
 Be aware that Yelp API doesn't support CORS policy, therefore you're encoureged to visit https://cors-anywhere.herokuapp.com/corsdemo in order to access the full funcitonality of the application.
 
+Also, you can make only up to 50 requests within an hour.
+
 Yelp APIs used:
 
 - /businesses/search
