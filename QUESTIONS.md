@@ -1,6 +1,5 @@
 # Questions
-
-============
+==============================================================================================================
 
 ## How long did you spend on the coding assignment?
 
@@ -14,7 +13,7 @@ If I had more time, I would enhance UI/UX as well as the quality of code.
 
 The new JavaScript specificaions provided lots of useful features.
 
-Here's some of them that:
+Here's some of them.
 
 ![Preview](https://res.cloudinary.com/koruja/image/upload/v1618083155/jsFeatures_twhupe.png)
 
@@ -46,33 +45,4 @@ I have performed a code review, revised the app architecture, included lazy load
 
 ## Please describe yourself using JSON.
 
-{
-  "firstName": "Bohdan",
-  "lastName": "Martyniuk",
-  "citizenship": "Ukraine",
-  "age": 23,
-  "occupation": "developer",
-  "hobbies": [
-    "soccer",
-    "gym",
-    "coding",
-    "music",
-    "nutrition"
-  ],
-  "phoneNumbers": [
-    {
-      "type": "cellphone",
-      "number": "+1-437-228-81-83"
-    }
-  ],
-  "education": [
-    {
-      "type": "Bachelor Degree",
-      "name": "National Aviation University"
-    },
-    {
-      "type": "Postgraduate Diploma",
-      "name": "Centennial College"
-    }
-  ],
-}
+![Preview](https://res.cloudinary.com/koruja/image/upload/v1618083646/selfDescription_zwqefy.png)

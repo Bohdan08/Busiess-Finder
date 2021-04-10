@@ -1,6 +1,6 @@
 # Business Finder H1
 
-============
+==============================================================================================================
 
 [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://bmo-business-finder.herokuapp.com/)
 
