@@ -1,9 +1,10 @@
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getBusinessesList,
   setBusinessesList,
+  getAutocompleteList,
   setSearchForm,
 } from "../redux/actions";
 import BusinessesListComponent from "../components/BusinessesListComponent";
@@ -17,11 +18,36 @@ const MainComponent = () => {
 
   const dispatch = useDispatch();
 
+  /* Use States */
+
+  const [inputActive, setInputActive] = useState({
+    location: false,
+    term: false,
+  });
+
   /* Use Effect */
 
   useEffect(() => {
     // fetch default values on init
     dispatch(getBusinessesList({ location, term, offset: 0, currentPage: 0 }));
+  }, []);
+
+  useEffect(() => {
+    const handleDocumentMouseUp = (event) => {
+      if (event.button !== 2) {
+        setTimeout(() => {
+          setInputActive({
+            location: false,
+            term: false,
+          });
+        }, 10);
+      }
+    };
+
+    document.addEventListener("mouseup", handleDocumentMouseUp);
+    return () => {
+      document.removeEventListener("mouseup", handleDocumentMouseUp);
+    };
   }, []);
 
   /* Handlers */
@@ -83,10 +109,11 @@ const MainComponent = () => {
     }
   };
 
-  const handleFormInput = (target) => {
-    const { name, value } = target;
-
+  const handleFormInput = (name, value) => {
     dispatch(setSearchForm({ ...searchForm, [name]: value }));
+
+    // fetch autocomplite with some delay to avoid redundant api calls
+    setTimeout(() => dispatch(getAutocompleteList({ text: value })), 500);
   };
 
   return (
@@ -122,9 +149,20 @@ const MainComponent = () => {
                 maxLength={30}
                 className="border py-3 px-3 text-grey-darkest  mb-3 md:mb-0 rounded md:rounded-none md:rounded-l-lg focus:outline-none w-80"
                 value={location}
-                onChange={({ target }) => handleFormInput(target)}
+                onChange={({ target }) => {
+                  const { name, value } = target;
+                  return handleFormInput(name, value);
+                }}
               />
-              <i className="fas fa-thumbtack"></i>
+              {inputActive.term &&
+                autoComplete.data &&
+                autoComplete.data.length > 0 && (
+                  <AutocompleteMenuComponent
+                    name="location"
+                    data={autoComplete.data}
+                    handleFormInput={handleFormInput}
+                  />
+                )}
             </div>
             <div className="flex flex-col">
               <input
@@ -135,8 +173,20 @@ const MainComponent = () => {
                 maxLength={30}
                 className="border py-3 px-3 text-grey-darkest mb-3 md:mb-0 rounded md:rounded-none focus:outline-none w-80"
                 value={term}
-                onChange={({ target }) => handleFormInput(target)}
+                onChange={({ target }) => {
+                  const { name, value } = target;
+                  return handleFormInput(name, value);
+                }}
               />
+              {inputActive.location &&
+                autoComplete.data &&
+                autoComplete.data.length > 0 && (
+                  <AutocompleteMenuComponent
+                    name="term"
+                    data={autoComplete.data}
+                    handleFormInput={handleFormInput}
+                  />
+                )}
             </div>
             <button
               type="submit"
@@ -144,6 +194,7 @@ const MainComponent = () => {
               className={`
               block bg-red-700 focus:outline-none text-white text-lg  py-1 px-4 md:rounded-r-lg
               mt-2 md:mt-0 rounded md:rounded-none w-full h-auto
+              search-button
                     ${
                       location === ""
                         ? "cursor-not-allowed"
