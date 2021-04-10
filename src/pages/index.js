@@ -8,7 +8,10 @@ import {
   getAutocompleteList,
   setSearchForm,
 } from "../redux/actions";
-import { BUSINESSES_PER_PAGE, TOO_MANY_REQUESTS_ERROR_CODE } from "../constants";
+import {
+  BUSINESSES_PER_PAGE,
+  TOO_MANY_REQUESTS_ERROR_CODE,
+} from "../constants";
 import {
   BusinessesListComponent,
   AutocompleteMenuComponent,
@@ -133,14 +136,14 @@ const MainComponent = () => {
   const handleFormInput = (name, value) => {
     dispatch(setSearchForm({ ...searchForm, [name]: value }));
 
-    if (name !== "location") {
+    if (name !== "location" && window.innerWidth > 767) {
       setInputTerm(true);
       callAutoComplete(value);
     }
   };
 
   const callAutoComplete = useCallback(
-    debounce((value) => dispatch(getAutocompleteList({ text: value })), 1000),
+    debounce((value) => dispatch(getAutocompleteList({ text: value })), 300),
     []
   );
 
