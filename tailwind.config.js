@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: () => ({
-        "header-background": "url('/images/background6.jpeg')",
+        "header-background":
+          "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/background6.jpeg')",
       }),
     },
   },

@@ -1,23 +1,26 @@
 import axios from "axios";
 import { API_REQUEST } from "../constants/actionTypes";
 
-// export const LINK = `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search`;
-
 const apiMiddleware = (store) => (next) => (action) => {
   const { type, payload } = action;
 
   if (type === API_REQUEST) {
-    const { location, term, offset } = payload;
+    const { location, term, offset, endpoint, text } = payload;
     next({
       type: action.next.PENDING,
     });
 
-    // term is optional
+    // send values if they exist
     const formattedTerm = term ? `&term=${term}` : "";
+    const formattedText = text ? `&text=${text}` : "";
+    const formattedLocation = location ? `&location=${location}` : "";
+    // check if offset explicitly undefined cuz it might be 0
 
     axios
       .get(
-        `${process.env.MAIN_END_POINT}?location=${location}${formattedTerm}&offset=${offset}`,
+        `${endpoint}?offset=${
+          offset || 0
+        }${formattedLocation}${formattedTerm}${formattedText}`,
         {
           headers: {
             Authorization: `Bearer ${process.env.API_KEY}`,
