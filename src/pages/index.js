@@ -52,11 +52,14 @@ const MainComponent = () => {
         button, to temporarily restore the full functionality of this
         application.`,
         confirmButtonText: "Ok",
-      }).then(() =>
-        window.open("https://cors-anywhere.herokuapp.com/", "_blank")
+        showCancelButton: true,
+      }).then(
+        ({ isConfirmed }) =>
+          isConfirmed &&
+          window.open("https://cors-anywhere.herokuapp.com/", "_blank")
       );
     }
-  }, []);
+  }, [error]);
 
   useEffect(() => {
     const handleDocumentMouseUp = (event) => {
@@ -259,8 +262,8 @@ const MainComponent = () => {
           <p className="text-4xl text-white text-center">Error!</p>
           <p className="text-xl text-white text-center pt-2 py-2">{error}</p>
           <p className="text-xl text-white text-center pt-2 py-2 px-2">
-            Perhaps, you need to activate CORS policy for the current
-            application due to the fact that Yelp API doesn't support it.
+            Perhaps, you need to activate CORS policy for this application due
+            to the fact that Yelp API doesn't support it.
             <br />
             Please visit{" "}
             <a
@@ -275,8 +278,7 @@ const MainComponent = () => {
             {"  "}
             <span>"Request temporary access to the demo server"</span>
             {"  "}
-            button, to temporarily restore the full functionality of this
-            application.
+            button, to temporarily restore the full functionality.
           </p>
         </div>
       ) : !error && (!data || !data.length) ? (
