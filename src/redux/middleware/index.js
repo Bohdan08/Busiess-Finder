@@ -29,6 +29,7 @@ const apiMiddleware = (store) => (next) => (action) => {
         }
       )
       .then(({ data }) => {
+        console.log(data, "data");
         next({
           type: action.next.SUCCESS,
           payload: data.businesses,
@@ -36,10 +37,14 @@ const apiMiddleware = (store) => (next) => (action) => {
         });
       })
       .catch((error) => {
+        const { response } = error;
         next({
           type: action.next.ERROR,
           error: true,
-          payload: error.message,
+          payload: {
+            code: response ? response.status : "",
+            message: response ? response.statusText : error.message,
+          },
         });
       });
   } else {

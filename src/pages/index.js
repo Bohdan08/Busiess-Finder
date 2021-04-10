@@ -8,8 +8,11 @@ import {
   getAutocompleteList,
   setSearchForm,
 } from "../redux/actions";
-import BusinessesListComponent from "../components/BusinessesListComponent";
 import { BUSINESSES_PER_PAGE } from "../constants";
+import {
+  BusinessesListComponent,
+  AutocompleteMenuComponent,
+} from "../components";
 
 const MainComponent = () => {
   /* Redux */
@@ -26,7 +29,6 @@ const MainComponent = () => {
   });
 
   /* Use Effect */
-
   useEffect(() => {
     // fetch default values on init
     dispatch(getBusinessesList({ location, term, offset: 0, currentPage: 0 }));
@@ -34,7 +36,7 @@ const MainComponent = () => {
 
   useEffect(() => {
     // 403 => CORS IS NOT ACTIVATED, ask a user to activate it
-    if (error && error.includes("403")) {
+    if (error && error.code && error.code === "403") {
       Swal.fire({
         icon: "warning",
         title: "CORS POLICY",
@@ -83,16 +85,11 @@ const MainComponent = () => {
   const submitForm = (event) => {
     event.preventDefault();
 
-    // make an API call only if user types different input values
-    if (location !== businesses.location || term !== businesses.term) {
-      // Use Set to save the options in redux
-      dispatch(
-        setBusinessesList({ location, term, offset: 0, currentPage: 0 })
-      );
+    // Use Set to save the options in redux
+    dispatch(setBusinessesList({ location, term, offset: 0, currentPage: 0 }));
 
-      // Use Get to fetch API
-      dispatch(getBusinessesList({ location, term, offset: 0 }));
-    }
+    // Use Get to fetch API
+    dispatch(getBusinessesList({ location, term, offset: 0 }));
   };
 
   const handlePreviousPage = () => {
@@ -142,7 +139,7 @@ const MainComponent = () => {
     dispatch(setSearchForm({ ...searchForm, [name]: value }));
 
     // fetch autocomplite with some delay to avoid redundant api calls
-    setTimeout(() => dispatch(getAutocompleteList({ text: value })), 500);
+    // setTimeout(() => dispatch(getAutocompleteList({ text: value })), 1000);
   };
 
   return (
@@ -154,7 +151,6 @@ const MainComponent = () => {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script src="sweetalert2.all.min.js"></script>
         {/* a polyfill for ES6 Promises for IE11 */}
         <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
         <meta charSet="utf-8" />
@@ -166,8 +162,9 @@ const MainComponent = () => {
       </Head>
       <main>
         <div className="search-container flex justify-center items-center flex-col bg-header-background">
-          <p className="md:text-6xl text-4xl text-gray-50"> Business Finder </p>
-
+          <p className="md:text-5xl text-4xl text-gray-50">
+            Discover Businesses
+          </p>
           <form
             method="get"
             className="flex md:flex-row flex-col p-10"
@@ -180,7 +177,7 @@ const MainComponent = () => {
                 id="location"
                 placeholder="Location (Toronto, NYC)"
                 maxLength={30}
-                className="border py-3 px-3 text-grey-darkest  mb-3 md:mb-0 rounded md:rounded-none md:rounded-l-lg focus:outline-none w-80"
+                className="border py-3 px-3 text-grey-darkest  mb-3 md:mb-0 rounded md:rounded-none md:rounded-l-lg focus:outline-none w-80 sm:mb-0"
                 value={location}
                 onChange={({ target }) => {
                   const { name, value } = target;
@@ -223,15 +220,20 @@ const MainComponent = () => {
             </div>
             <button
               type="submit"
-              disabled={location === ""}
+              disabled={
+                location === "" ||
+                (location === businesses.location && term === businesses.term)
+              }
               className={`
-              block bg-red-700 focus:outline-none text-white text-lg  py-1 px-4 md:rounded-r-lg
+              block focus:outline-none text-white text-lg  py-1 px-4 md:rounded-r-lg
               mt-2 md:mt-0 rounded md:rounded-none w-full h-auto
-              search-button
+              search-button tooltip
                     ${
-                      location === ""
-                        ? "cursor-not-allowed"
-                        : "hover:bg-red-800"
+                      location === "" ||
+                      (location === businesses.location &&
+                        term === businesses.term)
+                        ? "cursor-not-allowed bg-red-300"
+                        : "hover:bg-red-800 bg-red-700"
                     }`}
               aria-label="Search Button"
             >
@@ -250,6 +252,18 @@ const MainComponent = () => {
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
+              {location === "" && (
+                <span className="tooltiptext">
+                  Location is reqired for searching.
+                </span>
+              )}
+              {location === businesses.location && term === businesses.term && (
+                <span className="tooltiptext">
+                  You already viewing {term} in {location}.
+                  <br />
+                  Please type out other criteria for searching.
+                </span>
+              )}
             </button>
           </form>
         </div>
@@ -258,28 +272,32 @@ const MainComponent = () => {
       {loading ? (
         <div className="loader mx-auto my-20"></div>
       ) : error ? (
-        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-2/3  w-3/3 rounded">
-          <p className="text-4xl text-white text-center">Error!</p>
-          <p className="text-xl text-white text-center pt-2 py-2">{error}</p>
-          <p className="text-xl text-white text-center pt-2 py-2 px-2">
-            Perhaps, you need to activate CORS policy for this application due
-            to the fact that Yelp API doesn't support it.
-            <br />
-            Please visit{" "}
-            <a
-              href="https://cors-anywhere.herokuapp.com/"
-              className="underline text-blue-800"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              https://cors-anywhere.herokuapp.com/
-            </a>{" "}
-            and click on the
-            {"  "}
-            <span>"Request temporary access to the demo server"</span>
-            {"  "}
-            button, to temporarily restore the full functionality.
+        <div className="flex flex-col justify-center sm:my-20 my-10 mx-5 md:m-auto md:my-20 bg-red-400 py-3 md:w-2/3  w-3/3 rounded ">
+          <p className="text-4xl text-white text-center">Error {error.code}!</p>
+          <p className="text-xl text-white text-center pt-2 py-2">
+            {error.message}
           </p>
+          {error.code && error.code === "403" && (
+            <p className="text-xl text-white text-center pt-2 py-2 px-2">
+              Perhaps, you need to activate CORS policy for this application due
+              to the fact that Yelp API doesn't support it.
+              <br />
+              Please visit{" "}
+              <a
+                href="https://cors-anywhere.herokuapp.com/"
+                className="underline text-blue-800"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://cors-anywhere.herokuapp.com/
+              </a>{" "}
+              and click on the
+              {"  "}
+              <span>"Request temporary access to the demo server"</span>
+              {"  "}
+              button, to temporarily restore the full functionality.
+            </p>
+          )}
         </div>
       ) : !error && (!data || !data.length) ? (
         <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
@@ -297,7 +315,7 @@ const MainComponent = () => {
             total={total}
             currentPage={currentPage}
           />
-          <div className="pagination-contaier d-flex md:flex-row flex-col justify-center sm:w-6/12 w-11/12 mx-auto text-center">
+          <div className="pagination-contaier d-flex md:flex-row flex-col justify-center sm:w-6/12 w-11/12 mx-auto text-center mb-3 sm:mb-0">
             <button
               disabled={currentPage === 0}
               className={`sm:float-left text-white rounded sm:my-5 my-3 p-3 focus:outline-none w-full md:w-32 ${
@@ -335,7 +353,11 @@ const MainComponent = () => {
             background-color: #333;
             background-size: cover;
             background-position: 50%;
-            overflow-y: hidden;
+            overflow: hidden;
+          }
+
+          .search-button {
+            height: 50px;
           }
 
           .loader {
@@ -346,6 +368,32 @@ const MainComponent = () => {
             height: 120px;
             -webkit-animation: spin 2s linear infinite; /* Safari */
             animation: spin 2s linear infinite;
+          }
+
+          .tooltip {
+            position: relative;
+          }
+
+          .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            margin-bottom: 5px;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -60px;
+          }
+
+          .tooltip:hover .tooltiptext {
+            visibility: visible;
           }
 
           /* Safari */
@@ -371,6 +419,10 @@ const MainComponent = () => {
             .grid {
               width: 100%;
               flex-direction: column;
+            }
+
+            .tooltip {
+              display: none;
             }
           }
         `}

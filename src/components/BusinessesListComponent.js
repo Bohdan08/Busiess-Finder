@@ -37,7 +37,7 @@ const BusinessesListComponent = ({
           return (
             <div
               key={id}
-              className="p-2 m-4 border-2 border-gray-200 border-opacity-75 shadow-md shadow-lg rounded lg:w-5/12 w-full"
+              className="sm:p-2 py-3 px-2 sm:m-4 m-0 sm:border-2 sm:border-gray-200 sm:border-opacity-75 sm:shadow-md sm:shadow-lg sm:rounded lg:w-5/12 border-t-2 w-full"
             >
               <div className="flex flex-row">
                 <div>
@@ -54,7 +54,7 @@ const BusinessesListComponent = ({
                     {name}
                   </p>
                   <div className="flex flex-col py-1">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row text-sm sm:text-md">
                       <div>
                         {Array(BUSINESS_MAX_RATE)
                           .fill()
@@ -66,7 +66,7 @@ const BusinessesListComponent = ({
                             return (
                               <span
                                 key={starNumber}
-                                className={`fa fa-star  pl-0.5 ${
+                                className={`fa fa-star pl-0.5 ${
                                   isStarChecked
                                     ? "text-yellow-400"
                                     : "text-gray-300"
@@ -75,8 +75,10 @@ const BusinessesListComponent = ({
                             );
                           })}
                       </div>
-                      <span className="text-gray-black pl-2">{rating} </span>
-                      <span className="text-gray-500 pl-1">
+                      <span className="text-gray-black sm:pl-2 pl-1 pr-1">
+                        {rating}{" "}
+                      </span>
+                      <span className="text-gray-500 sm:pl-1">
                         {" "}
                         ({review_count} Reviews)
                       </span>
