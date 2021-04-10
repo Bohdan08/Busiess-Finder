@@ -377,7 +377,7 @@ const MainComponent = () => {
             color: #fff;
             text-align: center;
             border-radius: 6px;
-            padding: 5px 0;
+            padding: 10px;
             margin-bottom: 5px;
 
             /* Position the tooltip */
