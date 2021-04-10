@@ -19,7 +19,7 @@ const BusinessesListComponent = ({
           {term ? `${term} in ${location}` : `Browsing ${location} businesses`}{" "}
         </span>
         <span className="md:block inline-block">
-          ({endIndex} out of {total})
+          ({endIndex > data.length ? data.length : endIndex} out of {total})
         </span>
       </p>
       <div className="flex flex-row flex-wrap justify-center ">
