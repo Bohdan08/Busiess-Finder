@@ -296,7 +296,7 @@ const MainComponent = () => {
           )}
         </div>
       ) : !error && (!data || !data.length) ? (
-        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 w-1/3 rounded">
+        <div className="flex flex-col justify-center my-20 mx-5 md:m-auto md:my-20 bg-blue-500 py-3 md:w-2/3  w-3/3 rounded">
           <p className="text-4xl text-white text-center">Not Found!</p>
           <p className="text-xl text-white text-center pt-2">
             Please try different options...
