@@ -13,6 +13,7 @@
 - [Technologies](#technologies)
 - [Setup](#setup)
 - [Usage](#usage)
+- [Demo](#demo)
 - [Other](#other)
 
 ## General info
@@ -39,6 +40,12 @@ After you clone this repo to your desktop, go to its root directory and run npm 
 
 Once the dependencies are installed, you can run npm run dev to start the application. You will then be able to access it at localhost:3000
 
+## Demo
+
+You can visit the app by the following links:
+
+- https://business-finder.vercel.app/
+- https://bmo-business-finder.herokuapp.com/
 ## Other
 
 Be aware that Yelp API doesn't support CORS policy, therefore you're encoureged to visit https://cors-anywhere.herokuapp.com/corsdemo in order to access the full funcitonality of the application.
