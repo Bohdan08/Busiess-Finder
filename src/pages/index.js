@@ -115,10 +115,6 @@ const MainComponent = () => {
     dispatch(setSearchForm({ ...searchForm, [name]: value }));
 
     setInputActive({ ...inputActive, [name]: true });
-    // call auto complete endpoint with some delay to avoid redundant api calls
-    // setTimeout(() => {
-    //   dispatch(getAutocompleteList({ text: value }));
-    // }, 500);
   };
 
   return (
